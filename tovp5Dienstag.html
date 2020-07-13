@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Top Five Beispiel</title>
+    <style>
+        body {
+            font-family:'Comic Sans MS',Verdana,sans-serif;
+            text-align:center;
+        }
+        #cds {width:400px; margin:20px auto 20px auto;    }
+         #anleitung {  margin:20px  200px  ;    }
+        .cover {height:70px; padding :10px;}
+    </style>
+</head>
+<body>
+    <div id="anleitung">
+        Klicken Sie auf ein CD-Cover, um es zur Top-5-Liste hinzuzufügen. Wenn Sie neu starten möchten, 
+        klicken Sie auf die Schaltfläche "Neu starten", um die Top-5-Liste zu leeren.
+    </div>
+
+     
+    <div id="cds">
+        <!--hier kommen die Bilder-->
+    </div>
+    <h2>Meine top cds</h2>
+    <div id="top5">
+        <!--ausgewählte Bilder-->
+    </div>
+    <div>
+        <button id="b1">Neu starten</button>
+    </div>
+
+    <!--//Daten--> 
+    <script src="TopFiveBilder.js"></script>
+    <script>
+        function init()
+        {
+            //Bilder erzeugen
+        let ziel = document.getElementById("cds");
+
+        for (var i = 0; i < bilder.length; i++)
+        {
+            let bild = document.createElement('img');
+            bild.className = "cover";
+            bild.src = bilder[i].src; bild.alt = bilder[i].alt;
+
+            ziel.appendChild(bild);
+
+        }
+        //allen Bildern eventhandler zuweisen
+        let cdBilder = ziel.getElementsByTagName('img'); //Array von Bildern
+        for (var i = 0; i < cdBilder.length; i++)
+        {
+            cdBilder[i].addEventListener('click', inDieTop5);
+        }
+
+        }
+        function neustart() {
+             // bereiche wieder löschen 
+            document.getElementById('cds').innerHTML = '';
+
+            document.getElementById('top5').innerHTML = '';
+
+            // bilder neu aufbauen mit eventhandler
+
+            init();
+
+
+        }
+
+
+
+        //Eventhandler für Button
+        document.getElementById("b1").addEventListener("click", neustart);
+
+
+        function inDieTop5()
+        {
+            //auf welches Bild wurde geklickt
+            let imgElement = this;       //Auslöser (sender ) des events
+
+            //umhängen Bild nur 5 möglich
+            var top5 = document.getElementById('top5');
+            let count = 0;
+            for (var i = 0; i < top5.childNodes.length; i++)
+            {
+                //nur Elemente zählen vom Typ  img
+                if (top5.childNodes[i].nodeName.toLowerCase() == "img") {
+                    count++;
+                }
+            }
+            if (count < 5) {
+
+                //nummer <span>    und Bild
+
+                let span = document.createElement("span");
+                span.appendChild(document.createTextNode(count + 1));
+
+                document.getElementById('top5').appendChild( span );
+
+                document.getElementById('top5').appendChild(imgElement);
+                
+
+
+            }
+            else { alert("nix geht mehr");}
+
+          
+             
+        }
+        //Bilder erzeugen
+
+
+        init();
+    </script>
+
+
+
+
+</body>
+</html>
